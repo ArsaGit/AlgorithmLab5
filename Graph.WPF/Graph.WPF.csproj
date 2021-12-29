@@ -6,4 +6,8 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AlgorithmLab5\AlgorithmLab5.csproj" />
+  </ItemGroup>
+
 </Project>

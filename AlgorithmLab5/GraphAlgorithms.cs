@@ -9,32 +9,33 @@ namespace AlgorithmLab5
     public class GraphAlgorithms
     {
         private Graph graph;
-
+		private WriteLog WriteLog;
         public GraphAlgorithms()
         {
 
         }
 
-        public GraphAlgorithms(Graph graph)
+        public GraphAlgorithms(Graph graph, WriteLog writeLog)
         {
             this.graph = graph;
+			WriteLog = writeLog;
         }
 
         //Рекурсивный метод
         private void DFTRecursive(string node, Dictionary<string, bool> visited)
         {
 			//Отмечаем полученный узел
-			Console.WriteLine("Отмечаем узел {0}", node);
+			WriteLog($"Отмечаем узел {node}\n");
 			visited[node] = true;
 
             //Выполняем подобное для каждого соседнего узла
             List<string> neighbours = graph.Nodes[node].Neighbours;
-			Console.Write("Соседи узла {0}:", node);
+			WriteLog($"Соседи узла {node}:\n");
 			foreach (var e in neighbours)
 			{
-				Console.Write(" {0}", e);
+				WriteLog($" {e}");
 			}
-			Console.Write("\n------\n");
+			WriteLog("\n------\n");
             foreach (var n in neighbours)
             {
                 if (!visited[n]) DFTRecursive(n, visited);
@@ -52,8 +53,8 @@ namespace AlgorithmLab5
             }
 
 			//Вызов рекурсивного метода
-			Console.WriteLine("Обход в глубину\n" +
-				"Начинаем с узла {0}", node);
+			WriteLog($"Обход в глубину\n" +
+				$"Начинаем с узла {node}\n");
             DFTRecursive(node, visitedNodes);
         }
 
@@ -71,36 +72,36 @@ namespace AlgorithmLab5
             //Очередь узлов для посещения
             LinkedList<string> queue = new();
 
-			Console.WriteLine("Обход в ширину\n" +
-				"Начинаем с узла {0}", node);
+			WriteLog($"Обход в ширину\n" +
+				$"Начинаем с узла {node}\n");
 			//Отмечаем первый узел и добавляем в очередь
-			Console.WriteLine("Отмечаем узел {0}", node);
+			WriteLog($"Отмечаем узел {node}\n");
 			visitedNodes[node] = true;
-			Console.WriteLine("Добавляем узел {0} в очередь", node);
+			WriteLog($"Добавляем узел {node} в очередь\n");
 			queue.AddLast(node);
-			Console.Write("Очередь:");
+			WriteLog("Очередь:");
 			foreach (var e in queue)
 			{
-				Console.Write(" {0}", e);
+				WriteLog($" {e}");
 			}
-			Console.Write("\n-----\n");
+			WriteLog("\n-----\n");
 
 			while (queue.Any())
             {
 				//Убираем первый узел в очереди
 				node = queue.First();
-				Console.WriteLine("Берём первый узел из очереди: {0}", node);
+				WriteLog($"Берём первый узел из очереди: {node}\n");
 				queue.RemoveFirst();
 
                 //Получаем список соседних узлов
 				//Отмечаем их и добавляем в очередь
                 List<string> neighbours = graph.Nodes[node].Neighbours;
-				Console.Write("Соседи узла {0}:", node);
+				WriteLog($"Соседи узла {node}:");
 				foreach (var e in neighbours)
 				{
-					Console.Write(" {0}", e);
+					WriteLog($" {e}");
 				}
-				Console.Write("\n");
+				WriteLog("\n");
 
 				foreach (var val in neighbours)
                 {
@@ -111,12 +112,12 @@ namespace AlgorithmLab5
                     }
                 }
 
-				Console.Write("Очередь:");
+				WriteLog("Очередь:");
 				foreach (var e in queue)
 				{
-					Console.Write(" {0}", e);
+					WriteLog($" {e}");
 				}
-				Console.Write("\n------\n");
+				WriteLog("\n------\n");
 			}
         }
 
@@ -140,14 +141,14 @@ namespace AlgorithmLab5
 			//Обнуляем максимальный поток
 			int maxFlow = 0;
 
-			Console.WriteLine("Начинаем поиск максимального потока");
-			Console.WriteLine("Из узла {0} в {1}", s, t);
+			WriteLog("Начинаем поиск максимального потока\n");
+			WriteLog($"Из узла {s} в {t}\n");
 
 			//Пока путь есть
 			while (BFS(rGraph, s, t, path))
 			{
-				Console.WriteLine("Текущий максимальный поток: ", maxFlow);
-				Console.Write("Текущий путь:");
+				WriteLog($"Текущий максимальный поток: {maxFlow}\n");
+				WriteLog("Текущий путь:");
 
 				//Ищем минимальный поток у данного пути
 				int pathFlow = int.MaxValue;
@@ -155,9 +156,9 @@ namespace AlgorithmLab5
 				{
 					u = path[v];
 					pathFlow = Math.Min(pathFlow, rGraph[ToLink(u, v)]);
-					Console.Write(" " + ToLink(u, v) + "[" + rGraph[ToLink(u, v)] + "]");
+					WriteLog(" " + ToLink(u, v) + "[" + rGraph[ToLink(u, v)] + "]");
 				}
-				Console.WriteLine("\nМинимальный поток у этого пути: {0}", pathFlow);
+				WriteLog($"\nМинимальный поток у этого пути: {pathFlow}\n");
 
 				//Уменьшаем пропускную способность
 				for (v = t; v != s; v = path[v])
@@ -169,8 +170,11 @@ namespace AlgorithmLab5
 				//Увеличиваем максимальный поток на поток отдельного пути
 				maxFlow += pathFlow;
 
-				Console.WriteLine("-----");
+				WriteLog("-----\n");
 			}
+
+			WriteLog("Максимальный поток равен "
+							  + maxFlow + "\n");
 
 			return maxFlow;
 		}

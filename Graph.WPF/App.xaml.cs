@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Graph.WPF
+namespace GraphProject.WPF
 {
 	/// <summary>
 	/// Interaction logic for App.xaml

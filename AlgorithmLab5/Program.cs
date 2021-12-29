@@ -2,20 +2,29 @@
 
 namespace AlgorithmLab5
 {
+	public delegate void WriteLog(string text);
+
 	class Program
 	{
+		
+
 		static void Main(string[] args)
 		{
-			
-			//TestDFT();
-			//TestBFT();
-			TestMaxFlow2();
+			WriteLog writeLog = WriteInConsole;
+			//TestDFT(writeLog);
+			//TestBFT(writeLog);
+			TestMaxFlow2(writeLog);
 		}
 
-		public static void TestDFT()
+		public static void WriteInConsole(string text)
+		{
+			Console.Write(text);
+		}
+
+		public static void TestDFT(WriteLog writeLog)
 		{
 			Graph graph = new();
-			GraphAlgorithms algorithms = new(graph);
+			GraphAlgorithms algorithms = new(graph, writeLog);
 
 			graph.AddLink(1, 2);
 			graph.AddLink(1, 7);
@@ -32,10 +41,10 @@ namespace AlgorithmLab5
 			algorithms.DFT("1");
 		}
 
-		public static void TestBFT()
+		public static void TestBFT(WriteLog writeLog)
 		{
 			Graph graph = new();
-			GraphAlgorithms algorithms = new(graph);
+			GraphAlgorithms algorithms = new(graph, writeLog);
 
 			graph.AddLink(1, 2);
 			graph.AddLink(1, 3);
@@ -50,26 +59,26 @@ namespace AlgorithmLab5
 			algorithms.BFT("1");
 		}
 
-		public static void TestMaxFlow()
+		public static void TestMaxFlow(WriteLog writeLog)
 		{
 			FileWorker fileWorker = new();
 			string[] graphData = fileWorker.ReadFile("AdjacencyMaxFlow.csv");
 			Graph graph = new();
 			graph = GraphSerializer.Deserialize(graphData, GraphSerializer.GraphStorageType.AdjacencyMatrix);
-			GraphAlgorithms algorithms = new(graph);
+			GraphAlgorithms algorithms = new(graph, writeLog);
 
 			Console.WriteLine("Максимальный поток равен "
 							  + algorithms.FordFulkerson(graph, "0", "7"));
 		}
 
-		public static void TestMaxFlow2()
+		public static void TestMaxFlow2(WriteLog writeLog)
 		{
 			FileWorker fileWorker = new();
 			string[] graphData = fileWorker.ReadFile("input.csv");
 			Graph graph = new();
 			graph = GraphSerializer.Deserialize(graphData, GraphSerializer.GraphStorageType.MyType);
 
-			GraphAlgorithms algorithms = new(graph);
+			GraphAlgorithms algorithms = new(graph, writeLog);
 
 			Console.WriteLine("Максимальный поток равен "
 							  + algorithms.FordFulkerson(graph, "0", "4"));
