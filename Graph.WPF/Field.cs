@@ -112,62 +112,14 @@ namespace GraphProject.WPF
 		{
 			foreach (var l in graph.Links)
 			{
-				int i = graph.Links.IndexOf(l);
-				int count = 0;
-				for(int j = 0; j < i; j++)
-				{
-					if (AreEqual(l, graph.Links[j])) count++;
-				}
-				if (count > 0)
-				{
-					PathFigure arc = new();
-					arc.StartPoint = new(pc[l.Source].X + radius / 2, pc[l.Source].Y + radius / 2);
-					arc.IsClosed = false;
-					arc.Segments.Add(new ArcSegment
-					{
-						Point = new(pc[l.Target].X + radius / 2, pc[l.Target].Y + radius / 2),
-						Size = new(50 * count, 50 * count)
-					});
-
-					var g = new StreamGeometry();
-
-					using (var gc = g.Open())
-					{
-						gc.BeginFigure(
-							startPoint: new Point(pc[l.Source].X + radius / 2, pc[l.Source].Y + radius / 2),
-							isClosed: false,
-							isFilled: false);
-
-						gc.ArcTo(
-							point: new Point(pc[l.Target].X + radius / 2, pc[l.Target].Y + radius / 2),
-							size: new Size(50 * i, 50 * i),
-							isStroked: true,
-							isLargeArc: false,
-							rotationAngle: 0d,
-							sweepDirection: SweepDirection.Clockwise,
-							isSmoothJoin: false);
-					}
-
-					var path = new Path
-					{
-						Stroke = defaultColor,
-						StrokeThickness = strokeThickness,
-						Data = g
-					};
-
-					canvas.Children.Add(path);
-				}
-				else
-				{
-					Line line = new();
-					line.X1 = pc[l.Source].X + radius / 2;
-					line.Y1 = pc[l.Source].Y + radius / 2;
-					line.X2 = pc[l.Target].X + radius / 2;
-					line.Y2 = pc[l.Target].Y + radius / 2;
-					line.Stroke = defaultColor;
-					line.StrokeThickness = strokeThickness;
-					canvas.Children.Add(line);
-				}
+				Line line = new();
+				line.X1 = pc[l.Source].X + radius / 2;
+				line.Y1 = pc[l.Source].Y + radius / 2;
+				line.X2 = pc[l.Target].X + radius / 2;
+				line.Y2 = pc[l.Target].Y + radius / 2;
+				line.Stroke = defaultColor;
+				line.StrokeThickness = strokeThickness;
+				canvas.Children.Add(line);
 
 				TextBlock text = new();
 				text.FontSize = 16;
