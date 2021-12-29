@@ -34,6 +34,13 @@ namespace AlgorithmLab5
 			Nodes[s].AddNeighbour(t);
 		}
 
+		public void AddLink<T>(T link, int weight = 1)
+		{
+			string[] arr = link.ToString().Split('-');
+
+			AddLink(arr[0], arr[1], weight);
+		}
+
 		public void ChangeNode(string node, string newName)
 		{
 			Nodes[node].UpdateName(newName);
@@ -79,7 +86,7 @@ namespace AlgorithmLab5
 		{
 			for(int i = 0; i < Links.Count; i++)
 			{
-				if (link == Links.ToString()) Links.RemoveAt(i);
+				if (link == Links[i].ToString()) Links.RemoveAt(i);
 			}
 		}
 
