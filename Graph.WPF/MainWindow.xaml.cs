@@ -43,9 +43,9 @@ namespace GraphProject.WPF
 			
 
 			FileWorker fileWorker = new();
-			string[] graphData = fileWorker.ReadFile("input.csv");
+			string[] graphData = fileWorker.ReadFile("AdjacencyMaxFlow.csv");
 			Graph graph = new();
-			graph = GraphSerializer.Deserialize(graphData, GraphSerializer.GraphStorageType.MyType);
+			graph = GraphSerializer.Deserialize(graphData, GraphSerializer.GraphStorageType.AdjacencyMatrix);
 			field = new(canvas, WriteLog, graph);
 
 			GraphAlgorithms algorithms = new(graph, WriteLog);

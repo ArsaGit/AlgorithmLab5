@@ -18,6 +18,7 @@ namespace GraphProject.WPF
 		GraphAlgorithms algorithms;
 		int radius = 30;
 		Canvas canvas;
+		WriteLog WriteLog;
 
 		private int strokeThickness = 2;
 		private SolidColorBrush defaultColor = Brushes.Black;
@@ -27,6 +28,7 @@ namespace GraphProject.WPF
 		{
 			this.canvas = canvas;
 			this.graph = graph;
+			this.WriteLog = WriteLog;
 			algorithms = new(graph, WriteLog);
 			points = new();
 			//GeneratePoints();
@@ -72,19 +74,40 @@ namespace GraphProject.WPF
 
 		public void BFT(string node)
 		{
-			algorithms.BFT(node);
+			try
+			{
+				algorithms.BFT(node);
+			}
+			catch (Exception)
+			{
+				WriteLog("ERROR");
+			}
 		}
 
 		public void DFT(string node)
 		{
-			algorithms.DFT(node);
+			try
+			{
+				algorithms.DFT(node);
+			}
+			catch (Exception)
+			{
+				WriteLog("ERROR");
+			}
 		}
 
 		public void MaxFlow(string pair)
 		{
-			string[] arr = pair.Split('-');
+			try
+			{
+				string[] arr = pair.Split('-');
 
-			int temp = algorithms.FordFulkerson(graph, arr[0], arr[1]);
+				int temp = algorithms.FordFulkerson(graph, arr[0], arr[1]);
+			}
+			catch (Exception)
+			{
+				WriteLog("ERROR");
+			}
 		}
 
 		private void DrawNodes(Graph graph, Dictionary<string, Point> pc)
@@ -192,6 +215,8 @@ namespace GraphProject.WPF
 		public void ArrangeInCircle(double width, double height)
 		{
 			int i = 0;
+			points.Clear();
+
 			foreach(var e in graph.Nodes)
 			{
 				if(!points.ContainsKey(e.Key))points.Add(e.Key, new(0.4 * width * Math.Cos(i * 2 * Math.PI / graph.Nodes.Count) + width * 0.475,

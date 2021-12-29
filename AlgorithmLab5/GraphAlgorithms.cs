@@ -61,7 +61,7 @@ namespace AlgorithmLab5
         //Обход в ширину
         public void BFT(string node)
         {
-
+			if (!graph.Nodes.ContainsKey(node)) throw new Exception("Error");
             //Список посещенных узлов
             Dictionary<string, bool> visitedNodes = new();
             foreach (var e in graph.Nodes)
