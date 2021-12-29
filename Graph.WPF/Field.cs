@@ -20,12 +20,16 @@ namespace Graph.WPF
 		double step = 100;
 		Canvas canvas;
 
-		private const double ATTRACTION_CONSTANT = 0.1;     // spring constant
-		private const double REPULSION_CONSTANT = 100;    // charge constant
+		private const double ATTRACTION_CONSTANT = 0.1;
+		private const double REPULSION_CONSTANT = 100;
 
-		private const double DEFAULT_DAMPING = -0.1;		//0.5
+		private const double DEFAULT_DAMPING = -0.1;
 		private const int DEFAULT_SPRING_LENGTH = 100;
 		private const int DEFAULT_MAX_ITERATIONS = 500;
+
+		private int strokeThickness = 2;
+		private SolidColorBrush defaultColor = Brushes.Black;
+		private SolidColorBrush selectedColor = Brushes.Red;
 
 		public Field(Canvas canvas)
 		{
@@ -65,14 +69,15 @@ namespace Graph.WPF
 				ellipse.Width = radius;
 				ellipse.Height = radius;
 				ellipse.Fill = Brushes.White;
-				ellipse.Stroke = Brushes.Black;
-				ellipse.StrokeThickness = 1;
+				ellipse.Stroke = defaultColor;
+				ellipse.StrokeThickness = strokeThickness;
 				ellipse.RenderTransform = new TranslateTransform(pc[i].X, pc[i].Y);
 				canvas.Children.Add(ellipse);
 
 				TextBlock text = new();
+				text.FontSize = 16;
 				text.Text = i.ToString();
-				text.RenderTransform = new TranslateTransform(pc[i].X + 5, pc[i].Y + 5);
+				text.RenderTransform = new TranslateTransform(pc[i].X + 5, pc[i].Y + 4);
 				canvas.Children.Add(text);
 			}
 		}
@@ -86,8 +91,8 @@ namespace Graph.WPF
 				line.Y1 = pc[l.p1].Y + radius / 2;
 				line.X2 = pc[l.p2].X + radius / 2;
 				line.Y2 = pc[l.p2].Y + radius / 2;
-				line.Stroke = Brushes.Black;
-				line.StrokeThickness = 2;
+				line.Stroke = defaultColor;
+				line.StrokeThickness = strokeThickness;
 				canvas.Children.Add(line);
 
 				DrawArrow(points[l.p1].X + radius / 2, points[l.p1].Y + radius / 2,
@@ -114,6 +119,7 @@ namespace Graph.WPF
 			double Y5 = Y3 - (Yp / d) * 5;
 
 			Line line = new Line();
+			line.StrokeThickness = strokeThickness;
 
 			line = new Line
 			{
@@ -121,8 +127,9 @@ namespace Graph.WPF
 				X1 = x2 - (X / d) * 10,
 				Y1 = y2 - (Y / d) * 10,
 				X2 = X4,
-				Y2 = Y4
-			};
+				Y2 = Y4,
+				StrokeThickness = strokeThickness
+		};
 			canvas.Children.Add(line);
 
 			line = new Line
@@ -131,8 +138,9 @@ namespace Graph.WPF
 				X1 = x2 - (X / d) * 10,
 				Y1 = y2 - (Y / d) * 10,
 				X2 = X5,
-				Y2 = Y5
-			};
+				Y2 = Y5,
+				StrokeThickness = strokeThickness
+		};
 			canvas.Children.Add(line);
 		}
 
@@ -362,10 +370,10 @@ namespace Graph.WPF
 
 		public void ArrangeInCircle(double width, double height)
 		{
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < points.Count; i++)
 			{
-				points[i] = new(0.4 * width * Math.Cos(i * 2 * Math.PI / 10) + width * 0.475,
-					0.4 * height * Math.Sin(i * 2 * Math.PI / 10) + height * 0.475);
+				points[i] = new(0.4 * width * Math.Cos(i * 2 * Math.PI / points.Count) + width * 0.475,
+					0.4 * height * Math.Sin(i * 2 * Math.PI / points.Count) + height * 0.475);
 			}
 		}
 	}

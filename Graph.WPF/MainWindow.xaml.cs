@@ -38,7 +38,7 @@ namespace Graph.WPF
 			//timer.Tick += timer_Tick;
 			//timer.Start();
 			
-			field.ArrangeInCircle(M_Window.Width, M_Window.Height);
+			field.ArrangeInCircle(M_Window.Width * 2 / 3, M_Window.Height);
 			field.Draw();
 		}
 

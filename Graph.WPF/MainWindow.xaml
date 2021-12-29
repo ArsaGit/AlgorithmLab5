@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Graph.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="800" x:Name="M_Window">
-	<Canvas x:Name="canvas">
+        Title="MainWindow" Height="800" Width="1200" x:Name="M_Window">
+	<Grid x:Name="grid">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="2*"></ColumnDefinition>
+			<ColumnDefinition></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+		<Canvas x:Name="canvas" Grid.Column="0" Grid.Row ="0">
 		
-	</Canvas>
+	    </Canvas>
+	</Grid>
 </Window>
