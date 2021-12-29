@@ -33,26 +33,24 @@ namespace Graph.WPF
 			InitializeComponent();
 			field = new(canvas);
 
-			DispatcherTimer timer = new DispatcherTimer();
-			timer.Interval = TimeSpan.FromMilliseconds(100);
-			timer.Tick += timer_Tick;
-			timer.Start();
-		}
-
-		private void timer_Tick(object sender, EventArgs e)
-		{
-			canvas.Children.Clear();
-			//MoveCircle();
-			//canvas.Children.Add(test);
-			field.CalculateMovement();
+			//DispatcherTimer timer = new DispatcherTimer();
+			//timer.Interval = TimeSpan.FromMilliseconds(10);
+			//timer.Tick += timer_Tick;
+			//timer.Start();
+			
+			field.ArrangeInCircle(M_Window.Width, M_Window.Height);
 			field.Draw();
 		}
 
-		private void MoveCircle()
-		{
-			translateTransform.X += 1;
-			translateTransform.Y += 1;
-			test.RenderTransform = translateTransform;
-		}
+		//private void timer_Tick(object sender, EventArgs e)
+		//{
+		//	canvas.Children.Clear();
+		//	//MoveCircle();
+		//	//canvas.Children.Add(test);
+		//	field.Arrange();
+		//	field.points[0] = new(400, 400);
+		//	field.points[1] = new(400, 500);
+		//	field.Draw();
+		//}
 	}
 }
